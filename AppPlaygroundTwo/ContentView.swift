@@ -23,9 +23,15 @@ struct ContentView: View {
     @State private var playerScore = 0
     @State private var showingScore = false
     @State private var scoreTitle = ""
+    @State private var winGreen = true
+    
+    
+    
+    
     
     func resetGame() {
         cpuSelection = "questionmark.square.fill"
+        winGreen = true
     }
     
     func rockPressed() {
@@ -82,16 +88,23 @@ struct ContentView: View {
 
     func playerWin() {
         playerScore += 1
+        winGreen = true
         scoreTitle = "You Win!"
         showingScore = true
+        
     }
-    
     func cpuWin() {
-        playerScore -= 1
-        scoreTitle = "You lose!"
-        showingScore = true
+        if playerScore > 0 {
+            winGreen = false
+            playerScore -= 1
+            scoreTitle = "You lose!"
+            showingScore = true
+        } else {
+            winGreen = false
+            scoreTitle = "You lose!"
+            showingScore = true
+        }
     }
-    
     func allTie() {
         scoreTitle = "TIE!"
         showingScore = true
@@ -103,12 +116,19 @@ struct ContentView: View {
         
         ZStack {
             
-            LinearGradient(gradient: Gradient(colors: [.white, .gray]), startPoint: .bottom, endPoint: .topLeading)
-                .ignoresSafeArea()
+             LinearGradient(gradient: Gradient(colors: [ Color("darkGray"), .gray]), startPoint: .bottomLeading, endPoint: .topLeading)
+               .ignoresSafeArea()
+            
+            
+            
+            
+            
+            
+            
             
             VStack {
                 
-                Spacer()
+            
                 
                 
                 VStack {
@@ -116,11 +136,24 @@ struct ContentView: View {
                         .font(.largeTitle)
                         .bold()
                         .padding()
+                        .background(Color("hwsRed"))
+                        .clipShape(Capsule())
+                        .padding()
+                        
+                        .background(Color("darkGray"))
+                        .clipShape(Capsule())
+                    
+                    
                     Image(systemName: "\(cpuSelection)")
                         .resizable()
-                        .frame(width: 100, height: 100)
+                        .frame(width: 150, height: 150)
                         .padding()
+                        .background(winGreen ? .green : .red )
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
                 }
+                
+                .padding()
+               
                 
                 Spacer()
                 
@@ -137,7 +170,10 @@ struct ContentView: View {
                         .foregroundColor(.primary)
                         .clipShape(Capsule())
                         .padding()
-                        .shadow(color: .black, radius: 20)
+                        
+                        .background(Color("darkBlue"))
+                        .clipShape(Capsule())
+                //        .shadow(color: .black, radius: 20)
                     
                 }
                     Spacer()
@@ -151,7 +187,10 @@ struct ContentView: View {
                         .background(.blue)
                         .foregroundColor(.primary)
                         .clipShape(Capsule())
-                        .shadow(color: .black, radius: 20)
+                        .padding()
+                        .background(Color("darkBlue"))
+                        .clipShape(Capsule())
+              //          .shadow(color: .black, radius: 20)
                 }
                     
                     Spacer()
@@ -167,16 +206,21 @@ struct ContentView: View {
                         .foregroundColor(.primary)
                         .clipShape(Capsule())
                         .padding()
-                        .shadow(color: .black, radius: 20)
+                        .background(Color("darkBlue"))
+                        .clipShape(Capsule())
+         //               .shadow(color: .black, radius: 20)
                 }
                     
-                    
-                    
-                    
-                    
-                    
-                    
+                
                 }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 50)
+                .background(.thinMaterial)
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+                
+                
+                
+                
                 Spacer()
                 Text("Player Score: \(playerScore)")
                     .font(.largeTitle)
