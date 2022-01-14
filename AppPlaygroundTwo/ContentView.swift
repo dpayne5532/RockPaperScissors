@@ -31,33 +31,33 @@ struct ContentView: View {
         frameColor = Color(.clear)
     }
     func rockPressed() {
-        cpu = Int.random(in: 0...2)
+        cpu = Int.random(in: 1...999)
         cpuSort()
-        if cpu == 0 {
+        if cpu <= 333 {
             allTie()
-        } else if cpu == 1 {
+        } else if cpu <= 666 {
             cpuWin()
         } else {
             playerWin()
         }
     }
     func paperPressed() {
-        cpu = Int.random(in: 0...2)
+        cpu = Int.random(in: 1...999)
         cpuSort()
-        if cpu == 0 {
+        if cpu <= 333 {
             playerWin()
-        } else if cpu == 1 {
+        } else if cpu <= 666 {
             allTie()
         } else {
             cpuWin()
         }
     }
     func scissorsPressed() {
-        cpu = Int.random(in: 0...2)
+        cpu = Int.random(in: 1...999)
         cpuSort()
-        if cpu == 0 {
+        if cpu <= 333 {
             cpuWin()
-        } else if cpu == 1 {
+        } else if cpu <= 666 {
             playerWin()
         } else {
             allTie()
@@ -102,15 +102,7 @@ struct ContentView: View {
                 .ignoresSafeArea()
             VStack {
                
-//                    Text("CPU: ")
-//                        .font(.largeTitle)
-//                        .bold()
-//                        .padding()
-//                        .background(Color("hwsRed"))
-//                        .clipShape(Capsule())
-//                        .padding()
-//                        .background(Color("darkGray"))
-//                        .clipShape(Capsule())
+
                     Image(systemName: "\(cpuSelection)")
                         .resizable()
                         .frame(width: 150, height: 150)
