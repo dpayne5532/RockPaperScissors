@@ -19,8 +19,14 @@ struct ContentView: View {
     @State private var selection = ["Rock", "Paper", "Scissiors"]
     @State private var cpu = 0
     @State private var player = 0
-    @State private var cpuSelection = "questionmark"
+    @State private var cpuSelection = "questionmark.square.fill"
     @State private var playerScore = 0
+    @State private var showingScore = false
+    @State private var scoreTitle = ""
+    
+    func resetGame() {
+        cpuSelection = "questionmark.square.fill"
+    }
     
     func rockPressed() {
         cpu = Int.random(in: 0...2)
@@ -57,9 +63,10 @@ struct ContentView: View {
             allTie()
             
         }
+     
     }
     
-    
+   
     
     
     func cpuSort() {
@@ -72,54 +79,31 @@ struct ContentView: View {
         }
         
     }
-    
-    
-    
-    
-    
+
     func playerWin() {
         playerScore += 1
-        
-        
-        
+        scoreTitle = "You Win!"
+        showingScore = true
     }
     
     func cpuWin() {
         playerScore -= 1
-        
-        
+        scoreTitle = "You lose!"
+        showingScore = true
     }
     
     func allTie() {
-        
+        scoreTitle = "TIE!"
+        showingScore = true
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    func shoot() {
-        cpu = Int.random(in: 0...2)
-        
-        
-        
-        
-        
-        
-        
-        
-    }
+
     
     var body: some View {
         
         ZStack {
             
-            LinearGradient(gradient: Gradient(colors: [.white, .blue]), startPoint: .bottomTrailing, endPoint: .topLeading)
+            LinearGradient(gradient: Gradient(colors: [.white, .gray]), startPoint: .bottom, endPoint: .topLeading)
                 .ignoresSafeArea()
             
             VStack {
@@ -130,9 +114,11 @@ struct ContentView: View {
                 VStack {
                     Text("CPU: ")
                         .font(.largeTitle)
+                        .bold()
                         .padding()
                     Image(systemName: "\(cpuSelection)")
-                        .font(.largeTitle)
+                        .resizable()
+                        .frame(width: 100, height: 100)
                         .padding()
                 }
                 
@@ -151,6 +137,7 @@ struct ContentView: View {
                         .foregroundColor(.primary)
                         .clipShape(Capsule())
                         .padding()
+                        .shadow(color: .black, radius: 20)
                     
                 }
                     Spacer()
@@ -164,6 +151,7 @@ struct ContentView: View {
                         .background(.blue)
                         .foregroundColor(.primary)
                         .clipShape(Capsule())
+                        .shadow(color: .black, radius: 20)
                 }
                     
                     Spacer()
@@ -179,6 +167,7 @@ struct ContentView: View {
                         .foregroundColor(.primary)
                         .clipShape(Capsule())
                         .padding()
+                        .shadow(color: .black, radius: 20)
                 }
                     
                     
@@ -191,11 +180,16 @@ struct ContentView: View {
                 Spacer()
                 Text("Player Score: \(playerScore)")
                     .font(.largeTitle)
+                    .foregroundColor(.black)
             }
             
             
             
         }
+        .alert(scoreTitle, isPresented: $showingScore) {
+            Button("Continue", action: resetGame) } message: {
+                Text("Your score is \(playerScore)")
+            }
         
         
         
